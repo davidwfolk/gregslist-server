@@ -2,7 +2,7 @@ import { dbContext } from "../db/DbContext";
 
 
 class CarsService {
-  async deleteCar(id) {
+  async delete(id) {
     // let cars = await dbContext.Cars.deleteOne({_id: id})
     let cars = await dbContext.Cars.findByIdAndDelete(id)
     return cars
@@ -22,7 +22,7 @@ class CarsService {
     return cars
   }
 
-  async updateCar(id, updatedCar) {
+  async updateById(id, updatedCar) {
     let cars = await dbContext.Cars.findByIdAndUpdate(id, updatedCar)
     return cars
     // updatedCar = body

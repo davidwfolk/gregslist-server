@@ -1,6 +1,7 @@
 import express from 'express'
 import BaseController from "../utils/BaseController";
 import { carsService } from "../services/CarsService";
+import { BadRequest } from "../utils/Errors";
 
 
 
@@ -10,10 +11,10 @@ export class CarsController extends BaseController {
     super("api/cars")
     this.router
     .get("", this.getAll)
-    .get('/:id', this.getCarById)
+    .get('/:id', this.findById)
     .post('', this.create)
-    .put('/:id', this.updateCar)
-    .delete('/:id', this.deleteCar)
+    .put('/:id', this.updateById)
+    .delete('/:id', this.delete)
   }
   
   async getAll(req, res, next) {
@@ -29,9 +30,12 @@ export class CarsController extends BaseController {
       // res.send(cars)
       // }).catch(err => next(err))
     }
-  async getCarById(req, res, next) {
+  async findById(req, res, next) {
     try {
       let car = await carsService.findById(req.params.id)
+      if (!car) {
+        throw new BadRequest("#SputterSputterClunk - Invalid ID")
+      }
       res.send({ data: car, message: "here's your car!" })
     } catch (error) {
       next(error)
@@ -46,19 +50,19 @@ export class CarsController extends BaseController {
     }
   }
 
-  async updateCar(req, res, next) {
+  async updateById(req, res, next) {
     try {
-      let editedCar = await carsService.updateCar(req.params.id, req.body)
+      let editedCar = await carsService.updateById(req.params.id, req.body)
       req.send({data: editedCar, message: "Car updated!"})
     } catch (error) {
       
     }
   }
     
-  async deleteCar (req, res, next){
+  async delete (req, res, next){
     try {
-      let deleteCar = await carsService.deleteCar(req.params.id)
-      res.delete({data: deleteCar, message:"#ClickClick - Deleted"})
+      let deleteCar = await carsService.delete(req.params.id)
+      res.send({data: deleteCar, message:"#ClickClick - Deleted"})
     } catch (error) {
       
     }
