@@ -49,7 +49,7 @@ export class CarsController extends BaseController {
   async updateCar(req, res, next) {
     try {
       let editedCar = await carsService.updateCar(req.params.id, req.body)
-      req.send({data: editedCar, new: true, message: "Car updated!"})
+      req.send({data: editedCar, message: "Car updated!"})
     } catch (error) {
       
     }

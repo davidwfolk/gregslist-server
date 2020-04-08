@@ -5,10 +5,12 @@ class CarsService {
   async deleteCar(id) {
     // let cars = await dbContext.Cars.deleteOne({_id: id})
     let cars = await dbContext.Cars.findByIdAndDelete(id)
+    return cars
 
   }
   async findById(id) {
     let car = await dbContext.Cars.findById(id)
+    return car
   }
   async create(body) {
     let car = await dbContext.Cars.create(body)
